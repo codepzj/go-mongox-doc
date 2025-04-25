@@ -22,8 +22,8 @@ insertManyResult, err := userColl.Creator().InsertMany(context.Background(), use
 
 | 方法         | 描述               | 参数                              | 返回值 |
 | ------------ | ------------------ | --------------------------------- | ------ |
-| `InsertOne`  | 插入一个文档       | `context.Context`,`options(可选)` | `(*mongo.InsertOneResult, error)`   |
-| `InsertMany` | 插入多个文档       | `context.Context`,`options(可选)` | `(*mongo.InsertManyResult, error)`   |
+| `InsertOne`  | 插入一个文档       | `context.Context`,`*T` | `(*mongo.InsertOneResult, error)`   |
+| `InsertMany` | 插入多个文档       | `context.Context`,`[]*T` | `(*mongo.InsertManyResult, error)`   |
 
 - [InsertOneResult](https://pkg.go.dev/go.mongodb.org/mongo-driver/v2/mongo#InsertOneResult)
 - [InsertManyResult](https://pkg.go.dev/go.mongodb.org/mongo-driver/v2/mongo#InsertManyResult)

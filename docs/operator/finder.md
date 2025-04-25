@@ -59,34 +59,25 @@ err := userColl.Finder().DistinctWithParse(context.Background(), "age", &ageSlic
 
 - 如果你想要解析结果到一个切片，你可以使用 `DistinctWithParse` 方法。该方法接受一个指向切片的指针作为参数，用于解析结果。
 
-## 查询排序语法糖
-
-### Skip
+## 分页查询
 
 ```go
-// 跳过1条数据
-userColl.Finder().Skip(1).Find(context.Background())
+users, err := userColl.Finder().Skip(10).Limit(10).Find(context.Background())
 ```
 
-### Limit
+- `Skip` 函数解释: 跳过指定数量的数据。
+- `Limit` 函数解释: 限制返回的数据数量。
+
+该函数跳过了 10 条数据，并限制了返回的数据数量为 10 条，也就是第 2 页的数据。
+
+## 字段排序
 
 ```go
-// 限制为3条数据
-userColl.Finder().Limit(3).Find(context.Background())
+users, err := userColl.Finder().Sort(bson.M{"age": 1, "created_at": -1}).Find(context.Background())
 ```
 
-### Sort
-
-```go
-// 按照 `age` 字段升序排序
-userColl.Finder().Sort(bson.M{"age": 1}).Find(context.Background())
-```
-
-对于上方的[查询多个文档](./finder.md#查询多个文档)，我们可以更方便地进行查询。
-
-```go
-users, err := userColl.Finder().Skip(1).Limit(3).Sort(bson.M{"age": 1}).Filter(query.In("_id", "60e96214a21b1b0001c3d69e", "80e96214a21b1b0001c3d70e")).Find(context.Background())
-```
+- `Sort` 函数解释: 对查询结果进行排序。
+- `bson.M{"age": 1, "created_at": -1}` 解释: 按照 `age` 字段升序排序，如果 `age` 相同，则按照 `created_at` 字段降序排序。
 
 ## 参数列表
 
