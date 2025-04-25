@@ -2,6 +2,22 @@
 
 The `Updater()` method is used to obtain a new generic updater object, namely `Updater[T]`. With the methods of `Updater[T]`, we can execute relevant update operations.
 
+| Method Name         | Description                                        | Parameters                                                                                                   | Example                                                              |
+| ------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------- |
+| NewUpdater          | Creates a new Updater instance                     | `collection`: Mongo collection; `dbCallbacks`: database operation callbacks; `fields`: struct field metadata | `updater := NewUpdater[User](collection, callback, fields)`          |
+| UpdateOne           | Updates a single document in the collection        | `ctx`: 上下文；`opts`: 更新选项（可选）                                                                      | `updater.UpdateOne(ctx, opts...)`                                    |
+| UpdateMany          | Updates multiple documents in the collection       | `ctx`: 上下文；`opts`: 更新选项（可选）                                                                      | `updater.UpdateMany(ctx, opts...)`                                   |
+| Upsert              | Performs an upsert operation (insert or update)    | `ctx`: 上下文；`opts`: 更新选项（可选）                                                                      | `updater.Upsert(ctx, opts...)`                                       |
+| Filter              | Sets the query filter                              | `filter`: 查询过滤条件                                                                                       | `updater.Filter(filter)`                                             |
+| Updates             | Sets the update data                               | `updates`: 更新数据                                                                                          | `updater.Updates(updates)`                                           |
+| Replacement         | Sets the replacement data                          | `replacement`: 替换数据                                                                                      | `updater.Replacement(replacement)`                                   |
+| ModelHook           | Registers a model hook (for reflection usage)      | `modelHook`: 任意类型的钩子实例                                                                              | `updater.ModelHook(MyHook{})`                                        |
+| RegisterBeforeHooks | Registers hooks to run before the update operation | `hooks`: 函数列表（更新前执行）                                                                              | `updater.RegisterBeforeHooks(hook1, hook2)`                          |
+| RegisterAfterHooks  | Registers hooks to run after the update operation  | `hooks`: 函数列表（更新后执行）                                                                              | `updater.RegisterAfterHooks(hook1, hook2)`                           |
+| PreActionHandler    | Executes actions before the update operation       | `ctx`: 上下文；`globalOpContext`: 全局操作上下文；`opContext`: 操作上下文；`opType`: 操作类型                | `updater.PreActionHandler(ctx, globalOpContext, opContext, opType)`  |
+| PostActionHandler   | Executes actions after the update operation        | `ctx`: 上下文；`globalOpContext`: 全局操作上下文；`opContext`: 操作上下文；`opType`: 操作类型                | `updater.PostActionHandler(ctx, globalOpContext, opContext, opType)` |
+| GetCollection       | Gets the Mongo collection object                   | 无参数                                                                                                       | `coll := updater.GetCollection()`                                    |
+
 ## Update a single document
 
 ```go

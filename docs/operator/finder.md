@@ -2,6 +2,26 @@
 
 通过 `Finder()` 方法获取一个新的泛型的查询器对象，即 `Finder[T]`。通过 `Finder[T]` 的方法，我们能够执行相关的查询操作。
 
+| 方法名              | 功能描述                     | 参数说明                                                                                            | 示例                                                                                      |
+| ------------------- | ---------------------------- | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| FindOne             | 查找一个文档                 | 接收上下文 `ctx` 和可选的查询选项 `opts`                                                            | `finder.FindOne(ctx, options.Limit(1))`                                                   |
+| Find                | 查找多个文档                 | 接收上下文 `ctx` 和可选的查询选项 `opts`                                                            | `finder.Find(ctx, options.Sort("name"))`                                                  |
+| Count               | 获取文档数量                 | 接收上下文 `ctx` 和可选的查询选项 `opts`                                                            | `finder.Count(ctx, options.Limit(10))`                                                    |
+| Distinct            | 获取某字段的唯一值           | 接收上下文 `ctx`、字段名 `fieldName` 和可选的查询选项 `opts`                                        | `finder.Distinct(ctx, "fieldName", options.Sort("name"))`                                 |
+| DistinctWithParse   | 获取某字段的唯一值并解析结果 | 接收上下文 `ctx`、字段名 `fieldName`、解析目标 `result` 和查询选项 `opts`                           | `finder.DistinctWithParse(ctx, "fieldName", &result, options.Sort("name"))`               |
+| Filter              | 设置查询条件                 | 接收一个 `any` 类型的参数，表示过滤条件                                                             | `finder.Filter(query.Id("60e96214a21b1b0001c3d69e"))`                                     |
+| FindOneAndUpdate    | 查找一个文档并进行更新       | 接收上下文 `ctx` 和可选的查询选项 `opts`                                                            | `finder.FindOneAndUpdate(ctx, options.Update(bson.M{"$set": bson.M{"name": "newName"}}))` |
+| Limit               | 设置返回文档的最大数量       | 接收一个整数类型的 `limit` 参数                                                                     | `finder.Limit(10)`                                                                        |
+| ModelHook           | 设置模型钩子                 | 接收一个 `any` 类型的模型钩子参数                                                                   | `finder.ModelHook(&MyModel{})`                                                            |
+| RegisterAfterHooks  | 注册更新后的钩子函数         | 接收一个或多个 `AfterHookFn` 类型的钩子函数                                                         | `finder.RegisterAfterHooks(hook1, hook2)`                                                 |
+| RegisterBeforeHooks | 注册更新前的钩子函数         | 接收一个或多个 `BeforeHookFn` 类型的钩子函数                                                        | `finder.RegisterBeforeHooks(hook1, hook2)`                                                |
+| Skip                | 设置跳过的文档数量           | 接收一个整数类型的 `skip` 参数                                                                      | `finder.Skip(5)`                                                                          |
+| Sort                | 设置排序条件                 | 接收一个 `any` 类型的排序条件参数                                                                   | `finder.Sort(bson.M{"name": 1})`                                                          |
+| Updates             | 设置更新操作                 | 接收一个 `any` 类型的更新参数                                                                       | `finder.Updates(bson.M{"$set": bson.M{"age": 30}})`                                       |
+| PostActionHandler   | 执行后操作处理               | 接收上下文 `ctx`、全局操作上下文 `globalOpContext` 和操作上下文 `opContext`，以及操作类型 `opTypes` | `finder.PostActionHandler(ctx, globalOpContext, opContext, operation.OpCreate)`           |
+| PreActionHandler    | 执行前操作处理               | 接收上下文 `ctx`、全局操作上下文 `globalOpContext` 和操作上下文 `opContext`，以及操作类型 `opTypes` | `finder.PreActionHandler(ctx, globalOpContext, opContext, operation.OpUpdate)`            |
+| GetCollection       | 获取集合对象                 | 无参数                                                                                              | `collection := finder.GetCollection()`                                                    |
+
 ## 查询单个文档
 
 ```go
