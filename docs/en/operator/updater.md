@@ -50,4 +50,4 @@ updateResult, err := userColl.Updater().
 		Upsert(context.Background())
 ```
 
-- The `Upsert` method is used to update or insert a single document. The `updateResult` is of type `*mongo.UpdateResult`
+- The `Upsert` method is used to update or insert a single document. The `updateResult` is of type `*mongo.UpdateResult`.
