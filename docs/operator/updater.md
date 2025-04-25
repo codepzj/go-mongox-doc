@@ -2,21 +2,25 @@
 
 通过 `Updater()` 方法获取一个新的泛型的更新器对象，即 `Updater[T]`。通过 `Updater[T]` 的方法，我们能够执行相关的更新操作。
 
-| 方法名              | 功能描述                          | 参数说明                                                                                      | 示例                                                                 |
-| ------------------- | --------------------------------- | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| NewUpdater          | 创建一个新的 Updater 实例         | `collection`: Mongo 集合；`dbCallbacks`: 数据库操作回调；`fields`: 结构体字段元信息           | `updater := NewUpdater[User](collection, callback, fields)`          |
-| UpdateOne           | 更新集合中的一条数据              | `ctx`: 上下文；`opts`: 更新选项（可选）                                                       | `updater.UpdateOne(ctx, opts...)`                                    |
-| UpdateMany          | 更新集合中的多条数据              | `ctx`: 上下文；`opts`: 更新选项（可选）                                                       | `updater.UpdateMany(ctx, opts...)`                                   |
-| Upsert              | 插入或更新一条数据（upsert 操作） | `ctx`: 上下文；`opts`: 更新选项（可选）                                                       | `updater.Upsert(ctx, opts...)`                                       |
-| Filter              | 设置查询过滤条件                  | `filter`: 查询过滤条件                                                                        | `updater.Filter(filter)`                                             |
-| Updates             | 设置更新的数据                    | updates: 更新数据                                                                             | `updater.Updates(updates)`                                           |
-| Replacement         | 设置替换操作的数据                | replacement: 替换的数据                                                                       | `updater.Replacement(replacement)`                                   |
-| ModelHook           | 注册模型钩子（反射使用）          | modelHook: 任意类型的钩子实例                                                                 | `updater.ModelHook(MyHook{})`                                        |
-| RegisterBeforeHooks | 注册更新前的钩子函数              | `hooks`: 函数列表（更新前执行）                                                               | `updater.RegisterBeforeHooks(hook1, hook2)`                          |
-| RegisterAfterHooks  | 注册更新后的钩子函数              | `hooks`: 函数列表（更新后执行）                                                               | `updater.RegisterAfterHooks(hook1, hook2)`                           |
-| PreActionHandler    | 执行更新前的操作                  | `ctx`: 上下文；`globalOpContext`: 全局操作上下文；`opContext`: 操作上下文；`opType`: 操作类型 | `updater.PreActionHandler(ctx, globalOpContext, opContext, opType)`  |
-| PostActionHandler   | 执行更新后的操作                  | `ctx`: 上下文；`globalOpContext`: 全局操作上下文；`opContext`: 操作上下文；`opType`: 操作类型 | `updater.PostActionHandler(ctx, globalOpContext, opContext, opType)` |
-| GetCollection       | 获取 Mongo 集合对象               | 无参数                                                                                        | `coll := updater.GetCollection()`                                    |
+| 方法名              | 功能描述                   | 参数说明                                                                                                 | 示例                                                                                    |
+| ------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| FindOne             | 查找单个文档               | 接受 `ctx`（上下文）和可选的查询选项 `opts`                                                              | `finder.FindOne(ctx, options.Find())`                                                   |
+| Find                | 查找多个文档               | 接受 `ctx`（上下文）和可选的查询选项 `opts`                                                              | `finder.Find(ctx, options.Find())`                                                      |
+| Count               | 获取文档数量               | 接受 `ctx`（上下文）和可选的查询选项 `opts`                                                              | `finder.Count(ctx, options.Find().SetLimit(10))`                                        |
+| Distinct            | 获取字段的不同值           | 接受 `ctx`（上下文）、`fieldName`（字符串）和可选的查询选项 `opts`                                       | `finder.Distinct(ctx, "fieldName", options.Find())`                                     |
+| DistinctWithParse   | 获取字段的不同值并解析结果 | 接受 `ctx`（上下文）、`fieldName`（字符串）、`result`（任意类型）和可选的查询选项 `opts`                 | `finder.DistinctWithParse(ctx, "fieldName", &result, options.Find())`                   |
+| Filter              | 设置过滤条件               | 接受一个 `any` 类型参数，表示过滤条件                                                                    | `finder.Filter(query.Id("60e96214a21b1b0001c3d69e"))`                                   |
+| FindOneAndUpdate    | 查找并更新文档             | 接受 `ctx`（上下文）和可选的查询选项 `opts`                                                              | `finder.FindOneAndUpdate(ctx, options.Find().SetUpdate(update.Set("name", "newName")))` |
+| Limit               | 设置返回文档的最大数量     | 接受一个整数 `limit` 参数                                                                                | `finder.Limit(10)`                                                                      |
+| ModelHook           | 设置模型钩子               | 接受一个 `any` 类型的模型钩子参数                                                                        | `finder.ModelHook(&MyModel{})`                                                          |
+| RegisterAfterHooks  | 注册更新后的钩子函数       | 接受一个或多个 `AfterHookFn` 类型的钩子函数                                                              | `finder.RegisterAfterHooks(hook1, hook2)`                                               |
+| RegisterBeforeHooks | 注册更新前的钩子函数       | 接受一个或多个 `BeforeHookFn` 类型的钩子函数                                                             | `finder.RegisterBeforeHooks(hook1, hook2)`                                              |
+| Skip                | 设置跳过的文档数量         | 接受一个整数 `skip` 参数                                                                                 | `finder.Skip(5)`                                                                        |
+| Sort                | 设置排序条件               | 接受一个 `any` 类型的排序条件参数                                                                        | `finder.Sort(update.Sort("name", 1))`                                                   |
+| Updates             | 设置更新操作               | 接受一个 `any` 类型的更新参数，通常使用 `update` 包中的方法                                              | `finder.Updates(update.Set("age", 30))`                                                 |
+| PostActionHandler   | 处理后置操作               | 接受 `ctx`（上下文）、`globalOpContext`（操作上下文）、`opContext`（操作上下文）和 `opTypes`（操作类型） | `finder.PostActionHandler(ctx, globalOpContext, opContext, operation.OpCreate)`         |
+| PreActionHandler    | 处理前置操作               | 接受 `ctx`（上下文）、`globalOpContext`（操作上下文）、`opContext`（操作上下文）和 `opTypes`（操作类型） | `finder.PreActionHandler(ctx, globalOpContext, opContext, operation.OpUpdate)`          |
+| GetCollection       | 获取集合对象               | 无参数                                                                                                   | `collection := finder.GetCollection()`                                                  |
 
 ## 更新单个文档
 
