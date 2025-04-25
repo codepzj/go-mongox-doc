@@ -17,12 +17,3 @@ deleteResult, err := userColl.Deleter().Filter(query.In("_id", "60e96214a21b1b00
 ```
 
 `DeleteMany` 方法用于删除多个文档。`deleteResult` 为 `*mongo.DeleteResult` 类型。
-
-## 参数列表
-
-| 方法         | 描述         | 参数                              | 返回值 |
-| ------------ | ------------ | --------------------------------- | ------ |
-| `DeleteOne`  | 删除一个文档 | `context.Context`,`options(可选)` | `(*mongo.DeleteResult, error)`   |
-| `DeleteMany` | 删除多个文档 | `context.Context`,`options(可选)` | `(*mongo.DeleteResult, error)`   |
-
-- [DeleteResult](https://pkg.go.dev/go.mongodb.org/mongo-driver/v2/mongo#DeleteResult)

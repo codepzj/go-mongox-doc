@@ -23,13 +23,3 @@ insertManyResult, err := userColl.Creator().InsertMany(context.Background(), use
 
 - The `InsertMany` method is used to insert multiple documents. The `insertManyResult` is of the type `*mongo.InsertManyResult`. The second argument of the `InsertMany` method is a slice object of the specified generic type, with the elements of the slice being pointer types, i.e., `[]*User`.
 - If we need to set the `options` parameter, we can pass it as the third parameter of the method.
-
-## Parameters
-
-| Method       | Description               | Parameters               | Return Value                       |
-| ------------ | ------------------------- | ------------------------ | ---------------------------------- |
-| `InsertOne`  | Insert a single document  | `context.Context`, `*T`   | `*mongo.InsertOneResult`, `error`  |
-| `InsertMany` | Insert multiple documents | `context.Context`, `[]*T` | `*mongo.InsertManyResult`, `error` |
-
-- [InsertOneResult](https://pkg.go.dev/go.mongodb.org/mongo-driver/v2/mongo#InsertOneResult)
-- [InsertManyResult](https://pkg.go.dev/go.mongodb.org/mongo-driver/v2/mongo#InsertManyResult)

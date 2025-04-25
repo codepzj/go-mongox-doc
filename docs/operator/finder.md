@@ -5,24 +5,20 @@
 ## 查询单个文档
 
 ```go
-user, err := userColl.Finder().Filter(query.Id("60e96214a21b1b0001c3d69e")).FindOne(context.Background(), options.FindOne().SetSkip(1))
+user, err := userColl.Finder().Filter(query.Id("60e96214a21b1b0001c3d69e")).FindOne(context.Background(), options.FindOne())
 ```
 
 - `FindOne` 方法用于查询单个文档。`user` 为指定的泛型类型的指针对象，即 `*User`。
 
 - 通过 `Filter` 方法，我们可以指定查询条件。该方法接受的参数类型 `any`，意味着允许传入任意类型的参数（但是必须是合法的查询条件）。在上面的例子中，`query.Id("60e96214a21b1b0001c3d69e")` 用于指定查询条件为 `_id` 等于 `60e96214a21b1b0001c3d69e`。更多的查询条件构建可以参考 [query 包](../build/query/introduction)。
 
-- finder 中的 options 参数是可选的，通过 `options.FindOne()` 方法，我们可以指定查询选项。在上面的例子中，`options.FindOne().SetSkip(1)` 用于指定查询结果跳过 1 条数据。
-
 ## 查询多个文档
 
 ```go
-users, err := userColl.Finder().Filter(query.In("_id", "60e96214a21b1b0001c3d69e", "80e96214a21b1b0001c3d70e")).Find(context.Background(), options.Find().SetSkip(1).SetLimit(3).SetSort(bson.M{"age": 1}))
+users, err := userColl.Finder().Filter(query.In("_id", "60e96214a21b1b0001c3d69e", "80e96214a21b1b0001c3d70e")).Find(context.Background())
 ```
 
 - `Find` 方法用于查询多个文档。`users` 为指定的泛型类型的指针对象的切片，即 `[]*User`。
-
-- finder 中的 options 参数是可选的，通过 `options.Find()` 方法，我们可以指定查询选项。在上面的例子中，`options.Find().SetSkip(1).SetLimit(3).SetSort(bson.M{"age": 1})` 用于指定查询结果跳过 1 条数据，限制为 3 条数据，并按照 `age` 字段升序排序。
 
 ## 统计文档数量
 
@@ -65,10 +61,10 @@ err := userColl.Finder().DistinctWithParse(context.Background(), "age", &ageSlic
 users, err := userColl.Finder().Skip(10).Limit(10).Find(context.Background())
 ```
 
-- `Skip` 函数解释: 跳过指定数量的数据。
-- `Limit` 函数解释: 限制返回的数据数量。
+- `Skip`：该方法用于跳过指定数量的数据。
+- `Limit`：该方法用于限制返回的数据数量。
 
-该函数跳过了 10 条数据，并限制了返回的数据数量为 10 条，也就是第 2 页的数据。
+该方法跳过了 10 条数据，并限制了返回的数据数量为 10 条，也就是第 2 页的数据。
 
 ## 字段排序
 
@@ -76,24 +72,5 @@ users, err := userColl.Finder().Skip(10).Limit(10).Find(context.Background())
 users, err := userColl.Finder().Sort(bson.M{"age": 1, "created_at": -1}).Find(context.Background())
 ```
 
-- `Sort` 函数解释: 对查询结果进行排序。
-- `bson.M{"age": 1, "created_at": -1}` 解释: 按照 `age` 字段升序排序，如果 `age` 相同，则按照 `created_at` 字段降序排序。
-
-## 参数列表
-
-| 方法       | 描述                 | 参数                              | 返回值                  |
-| ---------- | -------------------- | --------------------------------- | ----------------------- |
-| `FindOne`  | 查询单个文档         | `context.Context`,`options(可选)` | `(*T, error)`           |
-| `Find`     | 查询多个文档         | `context.Context`,`options(可选)` | `([]*T, error)`         |
-| `Count`    | 统计文档数量         | `context.Context`                 | `(int64, error)`        |
-| `Distinct` | 查询指定字段的唯一值 | `context.Context`,`string`        | `*mongo.DistinctResult` |
-| `Skip`     | 跳过数据             | `int64`                           | `Finder[T]`             |
-| `Limit`    | 限制数据             | `int64`                           | `Finder[T]`             |
-| `Sort`     | 排序                 | `any`                             | `Finder[T]`             |
-
-- [Finder](https://pkg.go.dev/github.com/chenmingyong0423/go-mongox/v2/finder#Finder)
-- [DistinctResult](https://pkg.go.dev/go.mongodb.org/mongo-driver/v2/mongo#DistinctResult)
-- [FindOneOptions](https://pkg.go.dev/go.mongodb.org/mongo-driver/v2/mongo/options#FindOneOptions)
-- [FindOptions](https://pkg.go.dev/go.mongodb.org/mongo-driver/v2/mongo/options#FindOptions)
-- [CountOptions](https://pkg.go.dev/go.mongodb.org/mongo-driver/v2/mongo/options#CountOptions)
-- [DistinctOptions](https://pkg.go.dev/go.mongodb.org/mongo-driver/v2/mongo/options#DistinctOptions)
+- `Sort`: 该方法用于对查询结果进行排序。
+- `bson.M{"age": 1, "created_at": -1}`: 按照 `age` 字段升序排序，如果 `age` 相同，则按照 `created_at` 字段降序排序。

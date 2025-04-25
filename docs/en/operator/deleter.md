@@ -17,12 +17,3 @@ deleteResult, err := userColl.Deleter().Filter(query.In("_id", "60e96214a21b1b00
 ```
 
 The `DeleteMany` method is used to delete multiple documents. The `deleteResult` is of type `*mongo.DeleteResult`.
-
-## Parameters
-
-| Method       | Description               | Parameters                            | Return Value                   |
-| ------------ | ------------------------- | ------------------------------------- | ------------------------------ |
-| `DeleteOne`  | Delete a single document  | `context.Context`,`options(optional)` | `(*mongo.DeleteResult, error)` |
-| `DeleteMany` | Delete multiple documents | `context.Context`,`options(optional)` | `(*mongo.DeleteResult, error)` |
-
-- [DeleteResult](https://pkg.go.dev/go.mongodb.org/mongo-driver/v2/mongo#DeleteResult)
