@@ -17,3 +17,13 @@ insertManyResult, err := userColl.Creator().InsertMany(context.Background(), use
 ```
 - `InsertMany` 方法用于插入多个文档。`insertManyResult` 为 `*mongo.InsertManyResult` 类型。`InsertMany` 方法的第二个参数是指定的泛型类型的切片对象，切片元素的类型为指针类型，即 `[]*User`。
 - 如果我们需要设置 `options` 参数，可以将其作为该方法的第三个参数传递。
+
+## 参数列表
+
+| 方法         | 描述               | 参数                              | 返回值 |
+| ------------ | ------------------ | --------------------------------- | ------ |
+| `InsertOne`  | 插入一个文档       | `context.Context`,`options(可选)` | `(*mongo.InsertOneResult, error)`   |
+| `InsertMany` | 插入多个文档       | `context.Context`,`options(可选)` | `(*mongo.InsertManyResult, error)`   |
+
+- [InsertOneResult](https://pkg.go.dev/go.mongodb.org/mongo-driver/v2/mongo#InsertOneResult)
+- [InsertManyResult](https://pkg.go.dev/go.mongodb.org/mongo-driver/v2/mongo#InsertManyResult)
