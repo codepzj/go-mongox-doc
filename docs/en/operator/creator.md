@@ -2,15 +2,15 @@
 
 The `Creator()` method allows us to obtain a new generic creator object, namely `Creator[T]`. With the methods of `Creator[T]`, we can execute relevant creation operations.
 
-| Method Name         | Description                                        | Parameters                                                                                                   | Example                                                     |
-| ------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------- |
-| NewCreator          | Creates a new Creator instance                     | `collection`: Mongo collection; `dbCallbacks`: database operation callbacks; `fields`: struct field metadata | `creator := NewCreator[User](collection, callback, fields)` |
-| InsertOne           | Inserts a single document into the collection      | `ctx`: context; `doc`: document to insert; `opts`: insert options (optional)                                 | `creator.InsertOne(ctx, &user)`                             |
-| InsertMany          | Inserts multiple documents into the collection     | `ctx`: context; `docs`: array of documents; `opts`: insert options (optional)                                | `creator.InsertMany(ctx, []*User{&user1, &user2})`          |
-| ModelHook           | Registers a model hook (for reflection usage)      | `modelHook`: any type of hook instance                                                                       | `creator.ModelHook(MyHook{})`                               |
-| RegisterBeforeHooks | Registers hooks to run before the insert operation | `hooks`: list of functions to run before insertion                                                           | `creator.RegisterBeforeHooks(hook1, hook2)`                 |
-| RegisterAfterHooks  | Registers hooks to run after the insert operation  | `hooks`: list of functions to run after insertion                                                            | `creator.RegisterAfterHooks(hook1, hook2)`                  |
-| GetCollection       | Gets the Mongo collection object                   | No parameters                                                                                                | `coll := creator.GetCollection()`                           |
+| Method Name           | Description                                        | Parameters                                                                                                   | Example                                                     |
+| --------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------- |
+| `NewCreator`          | Creates a new Creator instance                     | `collection`: Mongo collection; `dbCallbacks`: database operation callbacks; `fields`: struct field metadata | `creator := NewCreator[User](collection, callback, fields)` |
+| `InsertOne`           | Inserts a single document into the collection      | `ctx`: context; `doc`: document to insert; `opts`: insert options (optional)                                 | `creator.InsertOne(ctx, &user)`                             |
+| `InsertMany`          | Inserts multiple documents into the collection     | `ctx`: context; `docs`: array of documents; `opts`: insert options (optional)                                | `creator.InsertMany(ctx, []*User{&user1, &user2})`          |
+| `ModelHook`           | Registers a model hook (for reflection usage)      | `modelHook`: any type of hook instance                                                                       | `creator.ModelHook(MyHook{})`                               |
+| `RegisterBeforeHooks` | Registers hooks to run before the insert operation | `hooks`: list of functions to run before insertion                                                           | `creator.RegisterBeforeHooks(hook1, hook2)`                 |
+| `RegisterAfterHooks`  | Registers hooks to run after the insert operation  | `hooks`: list of functions to run after insertion                                                            | `creator.RegisterAfterHooks(hook1, hook2)`                  |
+| `GetCollection`       | Gets the Mongo collection object                   | No parameters                                                                                                | `coll := creator.GetCollection()`                           |
 
 ## Insert a single document
 
