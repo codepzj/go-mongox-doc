@@ -5,7 +5,7 @@
 ## 查询单个文档
 
 ```go
-user, err := userColl.Finder().Filter(query.Id("60e96214a21b1b0001c3d69e")).FindOne(context.Background(), options.FindOne())
+user, err := userColl.Finder().Filter(query.Id("60e96214a21b1b0001c3d69e")).FindOne(context.Background())
 ```
 
 - `FindOne` 方法用于查询单个文档。`user` 为指定的泛型类型的指针对象，即 `*User`。
@@ -61,12 +61,12 @@ err := userColl.Finder().DistinctWithParse(context.Background(), "age", &ageSlic
 users, err := userColl.Finder().Skip(10).Limit(10).Find(context.Background())
 ```
 
-- `Skip`：该方法用于跳过指定数量的数据。
-- `Limit`：该方法用于限制返回的数据数量。
+- `Skip(n)`: 设置查询结果跳过前 n 条记录，通常用于分页时跳过已加载的部分数据。
+- `Limit(n)`: 限制查询结果返回的最大记录数，避免一次性加载过多数据。
 
-该方法跳过了 10 条数据，并限制了返回的数据数量为 10 条，也就是第 2 页的数据。
+本示例中：跳过前 10 条记录，返回第 11~20 条，共 10 条数据，通常用于第 2 页的数据加载（假设每页 10 条）。
 
-## 字段排序
+## 对结果进行排序
 
 ```go
 users, err := userColl.Finder().Sort(bson.M{"age": 1, "created_at": -1}).Find(context.Background())

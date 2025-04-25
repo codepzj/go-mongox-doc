@@ -61,12 +61,12 @@ err := userColl.Finder().DistinctWithParse(context.Background(), "age", &ageSlic
 users, err := userColl.Finder().Skip(10).Limit(10).Find(context.Background())
 ```
 
-- `Skip`：Skip the specified number of data.
-- `Limit`：Limit the number of data returned.
+- `Skip(n)`: Skips the first n records in the query result. Commonly used in pagination to bypass records that have already been retrieved.
+- `Limit(n)`: Restricts the maximum number of records returned by the query, helping to control data load and improve performance.
 
-This function skips 10 data and limits the number of returned data to 10, which is the data of the second page.
+This example skips 10 data and limits the number of returned data to 10, which is the data of the second page.
 
-## Field Sorting
+## Sorting Results
 
 ```go
 users, err := userColl.Finder().Sort(bson.M{"age": 1, "created_at": -1}).Find(context.Background())
